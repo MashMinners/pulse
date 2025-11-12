@@ -16,6 +16,7 @@ class ReviewCollectorController
     }
 
     public function good(ServerRequestInterface $request) : ResponseInterface{
+        $json = file_get_contents('php://input');
         return new JsonResponse('good');
     }
 
