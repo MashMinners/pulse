@@ -1,4 +1,4 @@
 <?php
 #СБОР ОТЗЫВОВ
-$this->post('review/good', '\Application\ReviewCollector\Controllers\ReviewCollectorController::good');
-$this->get('review/bad', '\Application\ReviewCollector\Controllers\ReviewCollectorController::bad');
+$this->post('review/add', '\Application\ReviewCollector\Controllers\ReviewCollectorController::add');
+$this->delete('review/delete', '\Application\ReviewCollector\Controllers\ReviewCollectorController::delete');

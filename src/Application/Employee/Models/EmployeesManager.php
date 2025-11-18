@@ -6,7 +6,7 @@ namespace Application\Employee\Models;
 
 use Engine\Database\IConnector;
 
-class Employee
+class EmployeesManager
 {
     public function __construct(IConnector $connector){
         $this->pdo = $connector::connect();

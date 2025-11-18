@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\ReviewCollector\Controllers;
 
+use Application\ReviewCollector\Models\Review;
 use Application\ReviewCollector\Models\ReviewCollector;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -15,9 +16,17 @@ class ReviewCollectorController
 
     }
 
-    public function good(ServerRequestInterface $request) : ResponseInterface{
+    public function add(ServerRequestInterface $request) : ResponseInterface{
         $json = file_get_contents('php://input');
+        $this->collector->insert(new Review($json));
         return new JsonResponse('good');
+    }
+
+    public function remove(ServerRequestInterface $request) : ResponseInterface{
+        $json = file_get_contents('php://input');
+        $result = $this->collector->delete($json);
+        $response = (new JsonResponse($result));
+        return $response;
     }
 
 }
