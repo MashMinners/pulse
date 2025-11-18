@@ -12,7 +12,7 @@ class EmployeesManager
         $this->pdo = $connector::connect();
     }
 
-    public function get(string $id){
+    public function getById(string $id){
         $query = ("SELECT * FROM employees WHERE employees_employee_id = :id");
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([
@@ -21,7 +21,20 @@ class EmployeesManager
         $result = $stmt->fetch();
     }
 
-    public function create() : string{
+    public function getByFullName(string $search) : EmployeesCollection {
+        $query = ("SELECT * FROM employees 
+                   WHERE CONCAT(employee_surname, ' ', employee_first_name) LIKE '%$search%'");
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        $collection = new EmployeesCollection();
+        foreach ($results as $result){
+            $collection->add(new Employee($result));
+        }
+        return $collection;
+    }
+
+    public function create() : string {
 
     }
 
@@ -29,8 +42,12 @@ class EmployeesManager
 
     }
 
-    public function delete(array $IDs){
-
-    }
+    public function delete(string $json) : bool {
+    $std = json_decode($json);
+    $query = ("DELETE FROM employees WHERE employees_employee_id = :employeeId");
+    $stmt = $this->pdo->prepare($query);
+    $stmt->execute(['employeeId'=>$std->employeeId]);
+    return true;
+}
 
 }
