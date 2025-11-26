@@ -16,10 +16,15 @@ class ReviewCollectorController
 
     }
 
+    public function getByEmployee(ServerRequestInterface $request) : ResponseInterface{
+        $data = file_get_contents('php://input');
+        $result = $this->collector->getByEmployee($data);
+        return new JsonResponse($result)
+;    }
     public function add(ServerRequestInterface $request) : ResponseInterface{
         $json = file_get_contents('php://input');
-        $this->collector->insert(new Review($json));
-        return new JsonResponse('good');
+        $reviewId = $this->collector->insert(new Review($json));
+        return new JsonResponse($reviewId);
     }
 
     public function remove(ServerRequestInterface $request) : ResponseInterface{

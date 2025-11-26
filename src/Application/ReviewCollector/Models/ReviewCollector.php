@@ -23,11 +23,23 @@ class ReviewCollector
 
     /**
      * Выбирает отзывы по пользователю за 30 дней
-     * @return void
+     * @return array|false
      */
-    public function getByEmployee(){
-        $query = ("SELECT * FROM reviews WHERE reviews_employee_id = :id AND ");
-
+    public function getByEmployee(string $data){
+        //Получить ID сотрудника
+        $employeeId = (json_decode($data))->review_employee_id;
+        //Получаю дату на момент запроса
+        $currentDate = strtotime(date('Y-m-d'));
+        //Получаю дату от текущей на 30 дней назад. От нее и буду отталкиваться в поиске
+        $reviewDate = $currentDate - 2592000;
+        $query = ("SELECT * FROM reviews WHERE reviews_employee_id = :employeeId AND reviews_review_date > :reviewDate");
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([
+            'employeeId' => $employeeId,
+            'reviewDate' => $reviewDate
+        ]);
+        $result = $stmt->fetchAll();
+        return $result;
     }
 
     /**
