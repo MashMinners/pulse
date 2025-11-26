@@ -12,6 +12,13 @@ class EmployeesManager
         $this->pdo = $connector::connect();
     }
 
+    public function getAll(){
+        $query = ("SELECT * FROM employees");
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
     public function getById(string $id){
         $query = ("SELECT * FROM employees WHERE employees_employee_id = :id");
         $stmt = $this->pdo->prepare($query);

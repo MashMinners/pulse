@@ -21,6 +21,16 @@ class ReviewCollector
 
     }
 
+    public function getAll(){
+        $query = ("SELECT * FROM reviews");
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        while ($data = $stmt->fetch()){
+            $result[$data['reviews_employee_id']][$data['reviews_review_status']][] = $data;
+        }
+        return $result;
+    }
+
     /**
      * Выбирает отзывы по пользователю за 30 дней
      * @return array|false
