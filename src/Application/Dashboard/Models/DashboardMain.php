@@ -18,10 +18,10 @@ class DashboardMain
         foreach ($employees AS $key => $value){
             if (array_key_exists($value['employees_employee_id'], $reviews)){
                 if (array_key_exists(1, $reviews[$value['employees_employee_id']])){
-                    $reviewsCount[$value['employees_employee_id']]['good'] = count($reviews[$value['employees_employee_id']][1]);
+                    $reviewsCount[$value['employees_employee_id']]['good'] = (string)count($reviews[$value['employees_employee_id']][1]);
                 }
                 if (array_key_exists(0, $reviews[$value['employees_employee_id']])){
-                    $reviewsCount[$value['employees_employee_id']]['bad'] = count($reviews[$value['employees_employee_id']][0]);
+                    $reviewsCount[$value['employees_employee_id']]['bad'] = (string)count($reviews[$value['employees_employee_id']][0]);
                 }
             }
         }
@@ -34,20 +34,20 @@ class DashboardMain
                     $employeesWithRating[$employee['employees_employee_id']]['employeePositiveRatingCount'] = $reviewsCount[$employee['employees_employee_id']]['good'];
                 }
                 else{
-                    $employeesWithRating[$employee['employees_employee_id']]['employeePositiveRatingCount'] = 0;
+                    $employeesWithRating[$employee['employees_employee_id']]['employeePositiveRatingCount'] = '0';
                 }
                 if (array_key_exists('bad', $reviewsCount[$employee['employees_employee_id']])){
                     $employeesWithRating[$employee['employees_employee_id']]['employeeNegativeRatingCount'] = $reviewsCount[$employee['employees_employee_id']]['bad'];
                 }
                 else{
-                    $employeesWithRating[$employee['employees_employee_id']]['employeeNegativeRatingCount'] = 0;
+                    $employeesWithRating[$employee['employees_employee_id']]['employeeNegativeRatingCount'] = '0';
                 }
             }else{
-                $employeesWithRating[$employee['employees_employee_id']]['employeePositiveRatingCount'] = 0;
-                $employeesWithRating[$employee['employees_employee_id']]['employeeNegativeRatingCount'] = 0;
+                $employeesWithRating[$employee['employees_employee_id']]['employeePositiveRatingCount'] = '0';
+                $employeesWithRating[$employee['employees_employee_id']]['employeeNegativeRatingCount'] = '0';
             }
         }
-        return $employeesWithRating;
+        //Необходимо обновить индексы массива на числовые иначе Vue выдает ошибки
+        return array_values($employeesWithRating);
     }
-
 }
