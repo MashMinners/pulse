@@ -4,17 +4,21 @@ namespace Application\Dashboard\Models;
 
 use Application\Employee\Models\EmployeesManager;
 use Application\ReviewCollector\Models\ReviewCollector;
+use Engine\Database\IConnector;
 use Engine\Database\MySQLDbConnector;
 
 class DashboardMain
 {
+    public function __construct(private IConnector $connector){
+
+    }
+
     public function getAllWithRating(){
         $employeesWithRating = [];
-        $connector = new MySQLDbConnector();
-        $employeesManager = new EmployeesManager($connector);
+        $employeesManager = new EmployeesManager($this->connector);
         $employees = $employeesManager->getAll();
-        $reviewsCollector = new ReviewCollector($connector);
-        $reviews = $reviewsCollector->getAll();
+        $reviewsCollector = new ReviewCollector($this->connector);
+        $reviews = $reviewsCollector->getAllGroupedByEmployeeAnStatus();
         foreach ($employees AS $key => $value){
             if (array_key_exists($value['employees_employee_id'], $reviews)){
                 if (array_key_exists(1, $reviews[$value['employees_employee_id']])){
