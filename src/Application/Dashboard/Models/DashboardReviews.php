@@ -28,7 +28,15 @@ class DashboardReviews
             'reviewDate' => $reviewDate,
             'reviewStatus' => $reviewStatus
         ]);
-        return $stmt->fetchAll();
+        $result = $stmt->fetchAll();
+        $i = 0;
+        foreach ($result AS $single) {
+            $single['reviews_review_date'] = date('d.m.Y', $single['reviews_review_date']);
+            $single['id'] = $i;
+            $i++;
+            $finalResult[] = $single;
+        }
+        return $finalResult;
 
     }
 
