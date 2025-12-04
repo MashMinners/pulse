@@ -4,27 +4,29 @@ namespace Application\ReviewCollector\Models;
 
 use Engine\DTO\BaseDTO;
 
-class Review extends BaseDTO implements \JsonSerializable
+class Review implements \JsonSerializable
 {
     protected string|null $reviewId;
     protected string|null $reviewEmployeeId;
     protected int|null $reviewStatus;
     protected string|null $reviewText;
     protected string|null $reviewDate;
+    protected string|null $reviewPacient;
+    protected string|null $reviewTelephone;
+
     public function __construct(string $json){
-        /**
-         * Заполнить все свойства null
-         */
-        $properties = get_class_vars(self::class);
-        foreach ($properties as $name => $value){
-            $this->$name = $value;
+        $data = json_decode($json);
+        foreach ($data AS $dataKey => $dataValue){
+            $this->$dataKey = $dataValue;
         }
-        //Проинициализировать значениями
-        $this->init($json);
     }
 
     public function __get(string $name){
         return $this->$name;
+    }
+
+    public function __set($name, $value){
+        $this->$name = $value;
     }
 
     public function jsonSerialize() : mixed
