@@ -19,13 +19,14 @@ class EmployeesManager
         return $stmt->fetchAll();
     }
 
-    public function getById(string $id){
-        $query = ("SELECT * FROM employees WHERE employees_employee_id = :id");
+    public function getById(string $employeeId){
+        $query = ("SELECT * FROM employees WHERE employees_employee_id = :employeeId");
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([
-            'id' => $id
+            'employeeId'=>$employeeId
         ]);
         $result = $stmt->fetch();
+        return $result;
     }
 
     public function getByFullName(string $search) : EmployeesCollection {
