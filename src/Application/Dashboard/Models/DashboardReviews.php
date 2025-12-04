@@ -21,7 +21,8 @@ class DashboardReviews
                    INNER JOIN employees e on reviews.reviews_employee_id = e.employees_employee_id
                    WHERE reviews_employee_id = :employeeId 
                    AND reviews_review_date > :reviewDate
-                   AND reviews_review_status = :reviewStatus");
+                   AND reviews_review_status = :reviewStatus
+                   ORDER BY reviews_review_date DESC");
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([
             'employeeId' => $employeeId,
