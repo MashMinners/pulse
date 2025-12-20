@@ -16,7 +16,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class AuthorizationMiddleware implements MiddlewareInterface
 {
-    public function __construct(private Configurator $configurator, private SecretKeyService $secretKeyService){}
+    public function __construct(private Configurator $configurator){}
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
@@ -52,7 +52,8 @@ class AuthorizationMiddleware implements MiddlewareInterface
                  */
                 $accountId = json_decode(base64_decode($payload))->accountId;
                 $header= json_decode(base64_decode($header));
-                $secretKey = $this->secretKeyService->getSecretKey($accountId, $this->configurator->hard);
+                //Имеет смысл передавать по ссылке именно этот объект конфигуратора, с загруженными в него параметрами
+                $secretKey = (new SecretKeyService($this->configurator))->getSecretKey($accountId, $this->configurator->hard);
                 if ($secretKey){
                     /**
                      * Так как сейчас использую Постман я не буду сильно заморачиваться и резать токен в клиенте на две части
