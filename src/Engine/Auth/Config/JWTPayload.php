@@ -17,6 +17,10 @@ class JWTPayload implements \JsonSerializable
     private string $jti; //Уникальный идентификатор токена, полезный для аннулирования
     private array $userData = [];
 
+    public function __construct(array $payload){
+        $this->init($payload);
+    }
+
     private function init(array $tokenConfigs) : void
     {
         foreach ($tokenConfigs as $key => $value){
