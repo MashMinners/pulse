@@ -6,8 +6,6 @@ namespace Engine\Auth\Services;
 
 use Engine\Auth\Account\Account;
 use Engine\Auth\Config\Configurator;
-use Laminas\Diactoros\Response\JsonResponse;
-use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
 
 class SecretKeyService
