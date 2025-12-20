@@ -49,8 +49,8 @@ class SecretKeyService
      * @param bool $hard
      * @return string|bool
      */
-    public function getSecretKey(string $accountId, $hard = false) : string|bool {
-        if ($hard){
+    public function getSecretKey(string $accountId) : string|bool {
+        if ($this->configurator->hard){
             $keyFile = $this->configurator->keyStorage.'/'.$accountId;
             if (file_exists($keyFile)){
                 $secretKey = file_get_contents($keyFile);

@@ -53,7 +53,7 @@ class AuthorizationMiddleware implements MiddlewareInterface
                 $accountId = json_decode(base64_decode($payload))->accountId;
                 $header= json_decode(base64_decode($header));
                 //Имеет смысл передавать по ссылке именно этот объект конфигуратора, с загруженными в него параметрами
-                $secretKey = (new SecretKeyService($this->configurator))->getSecretKey($accountId, $this->configurator->hard);
+                $secretKey = (new SecretKeyService($this->configurator))->getSecretKey($accountId);
                 if ($secretKey){
                     /**
                      * Так как сейчас использую Постман я не буду сильно заморачиваться и резать токен в клиенте на две части
