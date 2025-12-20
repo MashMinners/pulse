@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Engine\Auth\Authorization;
 
 use Engine\Auth\Config\Configurator;
+use Engine\Auth\Services\SecretKeyService;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -15,7 +16,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class AuthorizationMiddleware implements MiddlewareInterface
 {
-    public function __construct(private Configurator $configurator){}
+    public function __construct(private Configurator $configurator, private SecretKeyService $secretKeyService){}
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
@@ -51,8 +52,8 @@ class AuthorizationMiddleware implements MiddlewareInterface
                  */
                 $accountId = json_decode(base64_decode($payload))->accountId;
                 $header= json_decode(base64_decode($header));
-                $keyFile = $this->configurator->keyStorage.'/'.$accountId;
-                if (file_exists($keyFile)){
+                $secretKey = $this->secretKeyService->getSecretKey($accountId, $this->configurator->hard);
+                if ($secretKey){
                     /**
                      * Так как сейчас использую Постман я не буду сильно заморачиваться и резать токен в клиенте на две части
                      * пусть постман генерирует полный, дальше когда буду дорабатывать клиент само собой строка $accessToken = $token;
@@ -60,18 +61,17 @@ class AuthorizationMiddleware implements MiddlewareInterface
                      */
                     //$accessToken = $token.'.'.$signature;
                     $accessToken = $token;
-                    $secretKey = file_get_contents($keyFile);
                     $decoded = (JWT::decode($accessToken, new Key($secretKey, $header->alg)));
                     $request = $request->withAttribute('AccountId', $decoded->accountId);
                     $request = $request->withAttribute('AccountPermissions', $decoded->accountPermissions);
                     $response = $handler->handle($request);
                     return $response;
+                }else{
+                    return new JsonResponse('Не найден файл секретного ключа для расшифровки', 406);
                 }
-                return new JsonResponse('Не найден файл секретного ключа для расшифровки', 406);
             }
             else{
-                $response = new JsonResponse('Access токен не найден в заголовке Authorization', 401);
-                return $response;
+                return new JsonResponse('Access токен не найден в заголовке Authorization', 401);
             }
         }
         catch (\Exception $e){
