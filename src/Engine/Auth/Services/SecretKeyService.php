@@ -6,6 +6,8 @@ namespace Engine\Auth\Services;
 
 use Engine\Auth\Account\Account;
 use Engine\Auth\Config\Configurator;
+use Laminas\Diactoros\Response\JsonResponse;
+use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
 
 class SecretKeyService
@@ -45,17 +47,19 @@ class SecretKeyService
     /**
      * В случае если используется усиленная авторизация, то ключ берется из файла конфигурируемого для каждого пользователя
      * В случае если обычная - то используется общий для всех ключ, который задается в конфигурационном файле auth.php
-     * @param Account $account
-     * @param $hard
-     * @return string
+     * @param string $accountId
+     * @param bool $hard
+     * @return string|bool
      */
-    public function getSecretKey(Account $account, $hard = false) : string {
+    public function getSecretKey(string $accountId, $hard = false) : string|bool {
         if ($hard){
-            $keyPath = $this->configurator->keyStorage.'/'.$account->id;
-            $secretKey = file_get_contents($keyPath);
-            return $secretKey;
+            $keyFile = $this->configurator->keyStorage.'/'.$accountId;
+            if (file_exists($keyFile)){
+                $secretKey = file_get_contents($keyFile);
+                return $secretKey;
+            }
+            return false;
         }
         return $this->configurator->secretKey;
     }
-
 }
