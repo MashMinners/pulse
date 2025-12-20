@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Engine\DTO;
 
-class StructuredResponse
+class StructuredResponse implements \JsonSerializable
 {
     public function __construct(private $code = 204, private $message = null, private $body = []){
 

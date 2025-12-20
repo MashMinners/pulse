@@ -18,6 +18,8 @@
         "php-di/php-di": "^7.0",
         "ext-pdo": "*",
         "ramsey/uuid": "^4.7",
-      "ext-simplexml": "*"
+      "ext-simplexml": "*",
+        "firebase/php-jwt": "^6.11",
+      "ext-mbstring": "*"
     }
 }
