@@ -19,5 +19,8 @@ return [
         'options' => [
             'cost' => 6
         ]
+    ],
+    'refreshParams' => [
+        'expires' => time() + 84600
     ]
 ];

@@ -15,3 +15,7 @@ $this->post('auth/doAuth', 'Application\Auth\Controllers\AuthController::auth')
         \Engine\Auth\Authentication\CredentialsValidatorMiddleware::class,
         //\Engine\Auth\Authorization\AuthorizationMiddleware::class
     ]);
+$this->post('auth/refresh', 'Application\Auth\Controllers\AuthController::refresh')
+    ->lazyMiddlewares([
+        \Engine\Auth\Authorization\AuthorizationMiddleware::class
+    ]);
