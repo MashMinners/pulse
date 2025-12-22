@@ -29,7 +29,7 @@ class TokenService
     }
 
     /**
-     * Устанавлвиаем нвоый токен
+     * Устанавливаем новый токен
      * @param string $token
      * @param string $accountId
      * @return void
