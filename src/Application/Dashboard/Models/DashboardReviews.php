@@ -12,11 +12,15 @@ class DashboardReviews
         $this->pdo = $connector::connect();
     }
 
-    public function getReviewsByEmployee($employeeId, $reviewStatus=1){
+    public function getReviewsByEmployee($employeeId, $reviewStatus=1, $all = false){
         //Получаю дату на момент запроса
         $currentDate = strtotime(date('Y-m-d'));
         //Получаю дату от текущей на 30 дней назад. От нее и буду отталкиваться в поиске
-        $reviewDate = $currentDate - 2592000;
+        if ($all){
+            $reviewDate = 1761919200;
+        }else{
+            $reviewDate = $currentDate - 2592000;
+        }
         $query = ("SELECT * FROM reviews
                    INNER JOIN employees e on reviews.reviews_employee_id = e.employees_employee_id
                    WHERE reviews_employee_id = :employeeId 
