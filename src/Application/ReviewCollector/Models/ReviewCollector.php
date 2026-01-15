@@ -71,7 +71,7 @@ class ReviewCollector
      * @return void
      */
     public function insert(Review $review) : string{
-        $query = ("INSERT INTO pulse.reviews (reviews_review_id, reviews_employee_id, reviews_review_status, 
+        $query = ("INSERT INTO reviews (reviews_review_id, reviews_employee_id, reviews_review_status, 
                            reviews_review_text, reviews_review_date, reviews_review_pacient, reviews_review_pacient_telephone) 
                    VALUES (:reviewId, :employeeId, :reviewStatus, :reviewText, :reviewDate, :reviewPacient, :reviewTelephone)"); //Insert Query
         $stmt = $this->pdo->prepare($query);
