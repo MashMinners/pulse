@@ -1,7 +1,7 @@
 <?php
 #СБОР ОТЗЫВОВ В ПРИЛОЖЕНИИ
 $this->get('app/employee/get', 'Application\Employee\Controllers\EmployeeController::getEmployee');
-$this->post('app/review/add/positive', 'Application\ReviewCollector\Controllers\ReviewCollectorController::addReview');
+$this->post('app/review/add', 'Application\ReviewCollector\Controllers\ReviewCollectorController::addReview');
 
 #СБОР ДАННЫХ ДЛЯ ГЛАВНОЙ СТРАНИЦЫ ДАШБОРДА
 $this->get('dashboard/main/employees', 'Application\Dashboard\Controllers\DashboardMainController::showEmployeesWithRating');
