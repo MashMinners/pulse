@@ -22,6 +22,7 @@ class AuthController
         if ($auth->code === 200){
             $accessToken = $this->service->generateAccessToken($auth->body->id);
             $refreshToken = $this->service->generateRefreshToken($auth->body->id);
+            //setcookie('httpOnlyCookie', 'cookie data', time() + (86400 * 30), '/', '', true, true); // 30 дней
             return new JsonResponse($auth->body = ['AccessToken' => $accessToken, 'RefreshToken' => $refreshToken]);
         }
     }
