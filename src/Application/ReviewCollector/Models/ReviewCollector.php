@@ -80,7 +80,7 @@ class ReviewCollector
             'employeeId'=> $review->reviewEmployeeId,
             'reviewStatus' => $review->reviewStatus,
             'reviewText' => $review->reviewText,
-            'reviewDate' => strtotime(date("Y-m-d")),
+            'reviewDate' => strtotime(date("Y-m-d H:i")),
             'reviewPacient' => $review->reviewPacient,
             'reviewTelephone' => $review->reviewTelephone
 

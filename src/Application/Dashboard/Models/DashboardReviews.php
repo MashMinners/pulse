@@ -33,7 +33,7 @@ class DashboardReviews
         $i = 0;
         $finalResult = [];
         foreach ($result AS $single) {
-            $single['reviews_review_date'] = date('d.m.Y', $single['reviews_review_date']);
+            $single['reviews_review_date'] = date('d.m.Y H:i', $single['reviews_review_date']);
             $single['id'] = $i;
             $i++;
             $finalResult[] = $single;
