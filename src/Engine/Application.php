@@ -11,8 +11,8 @@ class Application
 {
     public function __construct(private ContainerInterface $container, private IRouter $router)
     {
-        require 'configs/routes.php';
-        require 'configs/middlewares.php';
+        require $_SERVER['DOCUMENT_ROOT'].'/../configs/routes.php';
+        require $_SERVER['DOCUMENT_ROOT'].'/../configs/middlewares.php';
     }
 
     /**

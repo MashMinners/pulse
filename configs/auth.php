@@ -1,6 +1,6 @@
 <?php
 return [
-    'keysStorage' => 'storage/auth/keys',
+    'keysStorage' => $_SERVER['DOCUMENT_ROOT'].'/../storage/auth/keys',
     'secretKey' => 'baseSecretKey', //если авторизация не усиленная, то будет использоваться один на всех этот ключ
     'algorithm' => 'configs/auth/algorithm',
     'permittedChars' => '0123456789abcdefghijklmnopqrstuvwxyz',

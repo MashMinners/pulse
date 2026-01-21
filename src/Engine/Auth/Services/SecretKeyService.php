@@ -36,7 +36,7 @@ class SecretKeyService
         $shuffledChars = str_shuffle($this->configurator->permittedChars);
         //Просто склеиваю ключ из различных символов, uuid и имени пользователя
         $secretKey = hash('sha1',$uuid.$account->userName.$shuffledChars, false);
-        //Создаю файл кудазапишу сгенерированный ключ
+        //Создаю файл куда запишу сгенерированный ключ
         $keyPath = $this->configurator->keyStorage.'/'.$account->id;
         file_put_contents($keyPath, $secretKey);
         return $secretKey;

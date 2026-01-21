@@ -21,7 +21,7 @@ class MySQLDbConnector implements IConnector
     public static function connect() : PDO
     {
         if (empty(self::$_instance)){
-            $configs = require 'configs/database.php';
+            $configs = require $_SERVER['DOCUMENT_ROOT'].'/../configs/database.php';
             self::$_instance = new
             PDO(
                 "mysql:host=".$configs['db_host'].'; 

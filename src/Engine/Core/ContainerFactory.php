@@ -11,7 +11,7 @@ use Psr\Container\ContainerInterface;
 class ContainerFactory
 {
     private static function createPhpDi() : ContainerInterface{
-        $definitions = require 'configs/dependencies.php';
+        $definitions = require $_SERVER['DOCUMENT_ROOT'].'/../configs/dependencies.php';
         $builder = new ContainerBuilder();
         $builder->addDefinitions($definitions);
         return $builder->build();
