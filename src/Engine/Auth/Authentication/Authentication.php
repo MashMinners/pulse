@@ -46,7 +46,7 @@ class Authentication
      * @param bool $hard
      * @return bool
      */
-    public function authinticate(Credentials $credentials) : StructuredResponse {
+    public function authenticate(Credentials $credentials) : StructuredResponse {
         //Проверяем наличие учетной записи
         if ($account = $this->identification->identify($credentials->userName)){
             //Проверяем пароль

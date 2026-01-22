@@ -18,8 +18,9 @@ class Configurator
     private array $refreshParams;
 
     public function __construct(private string $folder, private string $file, private bool $hard = false){
-        if (file_exists($folder.'/'.$file.'.php')){
-            $configs = require $this->folder.'/'.$this->file.'.php';
+        $file = $_SERVER['DOCUMENT_ROOT'].'/'.$folder.'/'.$file.'.php';
+        if (file_exists($file)){
+            $configs = require $file;
             $this->keyStorage =  $configs['keysStorage'];
             $this->secretKey = $configs['secretKey'];
             $this->permittedChars = $configs['permittedChars'];

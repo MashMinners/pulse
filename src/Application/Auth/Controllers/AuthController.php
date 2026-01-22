@@ -18,7 +18,7 @@ class AuthController
     public function auth(ServerRequestInterface $request) : ResponseInterface{
         $credentials = $request->getAttribute('Credentials');
         /** @var Account $auth */
-        $auth = $this->authentication->authinticate($credentials);
+        $auth = $this->authentication->authenticate($credentials);
         if ($auth->code === 200){
             $accessToken = $this->service->generateAccessToken($auth->body->id);
             $refreshToken = $this->service->generateRefreshToken($auth->body->id);
