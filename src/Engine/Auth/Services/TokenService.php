@@ -14,6 +14,7 @@ use Ramsey\Uuid\Uuid;
 
 class TokenService
 {
+    private \PDO $pdo;
     public function __construct(private Configurator $configurator, IConnector $connector){
         $this->pdo = $connector::connect();
     }

@@ -8,6 +8,7 @@ use Engine\Database\IConnector;
 
 class EmployeesManager
 {
+    private $pdo;
     public function __construct(IConnector $connector){
         $this->pdo = $connector::connect();
     }

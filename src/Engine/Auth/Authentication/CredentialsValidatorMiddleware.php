@@ -12,30 +12,32 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class CredentialsValidatorMiddleware implements MiddlewareInterface
 {
+    private Credentials $credentials;
+    private AuthErrors $errors;
     public function __construct (AuthErrors $errors, Credentials $credentials){
-        $this->_credentials = $credentials;
-        $this->_errors = $errors;
+        $this->credentials = $credentials;
+        $this->errors = $errors;
     }
 
     private function validateUserName() : void
     {
-        if (!empty($userName = $this->_credentials->userName)){
+        if (!empty($userName = $this->credentials->userName)){
             if (!preg_match("/^[a-zA-Z0-9]+$/", $userName)){
-                $this->_errors->incorrectCharacters('UserName');
+                $this->errors->incorrectCharacters('UserName');
             }
         }else{
-            $this->_errors->emptyField('UserName');
+            $this->errors->emptyField('UserName');
         }
     }
 
     private function validateUserPassword() : void
     {
-        if (!empty($userPassword = $this->_credentials->userPassword)){
+        if (!empty($userPassword = $this->credentials->userPassword)){
             if (!preg_match("/^[a-zA-Z0-9!@#$%^&*()-_=+]+$/", $userPassword)){
-                $this->_errors->incorrectCharacters('UserPassword');
+                $this->errors->incorrectCharacters('UserPassword');
             }
         }else{
-            $this->_errors->emptyField('UserPassword');
+            $this->errors->emptyField('UserPassword');
         }
     }
 
@@ -50,10 +52,10 @@ class CredentialsValidatorMiddleware implements MiddlewareInterface
     {
         $this->validateUserName();
         $this->validateUserPassword();
-        if ($this->_errors->hasErrors()) {
-            return new JsonResponse($this->_errors, 406);
+        if ($this->errors->hasErrors()) {
+            return new JsonResponse($this->errors, 406);
         }
-        $request = $request->withAttribute('Credentials', $this->_credentials);
+        $request = $request->withAttribute('Credentials', $this->credentials);
         return $response = $handler->handle($request);
     }
 

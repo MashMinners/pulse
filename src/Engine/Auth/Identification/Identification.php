@@ -10,6 +10,7 @@ use Engine\Database\IConnector;
 
 class Identification
 {
+    private $pdo;
     public function __construct(IConnector $connector){
         $this->pdo = $connector::connect();
     }

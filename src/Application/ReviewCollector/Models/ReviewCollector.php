@@ -9,6 +9,7 @@ use Ramsey\Uuid\Uuid;
 
 class ReviewCollector
 {
+    private $pdo;
     public function __construct(IConnector $connector){
         $this->pdo = $connector::connect();
     }
